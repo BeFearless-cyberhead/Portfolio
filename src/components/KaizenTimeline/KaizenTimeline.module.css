@@ -1,0 +1,186 @@
+/* ===== KAIZEN TIMELINE ===== */
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding-left: 40px;
+}
+
+.line {
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-teal-primary),
+    var(--color-gold-accent),
+    var(--color-teal-primary)
+  );
+  border-radius: 2px;
+}
+
+.node {
+  position: relative;
+  display: flex;
+  gap: var(--space-4);
+}
+
+.dot {
+  position: absolute;
+  left: -40px;
+  top: var(--space-4);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-teal-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 4px var(--color-bg-primary), 0 0 12px rgba(14, 124, 123, 0.3);
+  z-index: 1;
+}
+
+.dotInner {
+  font-family: var(--font-heading);
+  font-size: var(--text-label);
+  font-weight: 700;
+  color: var(--color-text-inverse);
+}
+
+.card {
+  flex: 1;
+  background: var(--color-bg-solid);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  box-shadow:
+    4px 4px 8px var(--color-shadow-dark),
+    -4px -4px 8px var(--color-shadow-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.cardTitle {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.dateRange {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  color: var(--color-teal-primary);
+  white-space: nowrap;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-sm);
+}
+
+.role {
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.cardMeta {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.teamSize {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  color: var(--color-text-secondary);
+}
+
+.outcome {
+  font-size: var(--text-body-sm);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border-default);
+}
+
+.outcomeLabel {
+  font-weight: 600;
+  color: var(--color-gold-accent);
+}
+
+/* ===== DESKTOP: Horizontal-ish layout ===== */
+@media (min-width: 768px) {
+  .timeline {
+    padding-left: 50px;
+    gap: var(--space-6);
+  }
+
+  .dot {
+    left: -50px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .line {
+    left: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+    padding-left: 0;
+    padding-top: 50px;
+  }
+
+  .line {
+    left: 0;
+    right: 0;
+    top: 18px;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      var(--color-teal-primary),
+      var(--color-gold-accent),
+      var(--color-teal-primary)
+    );
+  }
+
+  .node {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .dot {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin-top: -50px;
+    margin-bottom: var(--space-4);
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    align-items: center;
+    text-align: center;
+  }
+}

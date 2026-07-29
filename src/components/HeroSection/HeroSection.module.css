@@ -1,0 +1,104 @@
+/* ===== HERO SECTION ===== */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/hero-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 27, 42, 0.7) 0%,
+    rgba(13, 27, 42, 0.5) 50%,
+    rgba(13, 27, 42, 0.85) 100%
+  );
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-content);
+  width: 100%;
+  padding: calc(var(--space-20) * 2) var(--space-6) var(--space-20);
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.heroName {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+.heroSubheadline {
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: var(--color-teal-primary);
+  min-height: 2.4em;
+}
+
+.heroCtas {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+}
+
+/* Hero buttons override to work on dark background */
+.heroCtas button:last-child {
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.heroCtas button:last-child:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.scrollIndicator {
+  position: absolute;
+  bottom: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.5rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 639px) {
+  .heroContent {
+    padding: calc(var(--space-20) * 1.5) var(--space-4) var(--space-12);
+  }
+
+  .heroCtas {
+    flex-direction: column;
+  }
+
+  .heroCtas button {
+    width: 100%;
+  }
+}

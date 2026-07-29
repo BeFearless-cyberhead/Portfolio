@@ -1,26 +1,244 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/animations.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ===== Tailwind v4 Theme Extension ===== */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-card: var(--color-bg-card);
+  --color-bg-solid: var(--color-bg-solid);
+  --color-teal-primary: var(--color-teal-primary);
+  --color-teal-hover: var(--color-teal-hover);
+  --color-gold-accent: var(--color-gold-accent);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-inverse: var(--color-text-inverse);
+  --color-border-default: var(--color-border-default);
+  --color-border-focus: var(--color-border-focus);
+  --color-error: var(--color-error);
+  --color-success: var(--color-success);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Syne', sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', Menlo, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ===== BASE RESET ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transition: background-color var(--dur-default), color var(--dur-default);
+  overflow-x: hidden;
+}
+
+/* Prevent iOS auto-zoom on input focus */
+input, textarea, select {
+  font-size: max(16px, 1rem);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-teal-primary);
+  text-decoration: none;
+  transition: color var(--dur-fast);
+}
+
+a:hover {
+  color: var(--color-teal-hover);
+}
+
+/* ===== SKIP TO CONTENT (Accessibility) ===== */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-teal-primary);
+  color: var(--color-text-inverse);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: top var(--dur-fast);
+}
+
+.skip-to-content:focus {
+  top: var(--space-4);
+}
+
+/* ===== SECTION LAYOUT ===== */
+.section {
+  padding: var(--space-20) var(--space-6);
+  max-width: var(--max-content);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section-label {
+  font-family: var(--font-heading);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-teal-primary);
+  margin-bottom: var(--space-2);
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h1);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.section-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-body-lg);
+  color: var(--color-text-secondary);
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+/* ===== NEUMORPHIC UTILITIES ===== */
+.neu-raised {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  box-shadow:
+    6px 6px 12px var(--color-shadow-dark),
+    -6px -6px 12px var(--color-shadow-light);
+  transition: box-shadow var(--dur-default), transform var(--dur-default);
+}
+
+.neu-raised:hover {
+  transform: scale(1.02);
+  box-shadow:
+    8px 8px 16px var(--color-shadow-dark),
+    -8px -8px 16px var(--color-shadow-light);
+}
+
+.neu-pressed {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  box-shadow:
+    inset 4px 4px 8px var(--color-shadow-dark),
+    inset -4px -4px 8px var(--color-shadow-light);
+}
+
+.neu-flat {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  box-shadow:
+    3px 3px 6px var(--color-shadow-dark),
+    -3px -3px 6px var(--color-shadow-light);
+}
+
+/* Reduce neumorphic intensity on mobile */
+@media (max-width: 767px) {
+  .neu-raised, .neu-flat {
+    box-shadow:
+      3px 3px 6px var(--color-shadow-dark),
+      -3px -3px 6px var(--color-shadow-light);
+  }
+}
+
+/* ===== GLASSMORPHIC UTILITIES ===== */
+.glass-panel {
+  background: var(--color-glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-lg);
+}
+
+@media (max-width: 767px) {
+  .glass-panel {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-default);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+/* ===== FOCUS STYLES ===== */
+:focus-visible {
+  outline: 3px solid var(--color-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== SELECTION ===== */
+::selection {
+  background: var(--color-teal-primary);
+  color: var(--color-text-inverse);
+}
+
+/* ===== SKELETON LOADING ===== */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-card) 25%,
+    var(--color-border-default) 50%,
+    var(--color-bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== BODY SCROLL LOCK ===== */
+body.scroll-locked {
+  overflow: hidden;
+}
+
+/* ===== Responsive Typography ===== */
+@media (max-width: 767px) {
+  :root {
+    --text-display: 2.5rem;
+    --text-h1: 2rem;
+    --text-h2: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --text-display: 3.5rem;
+    --text-h1: 2.25rem;
+  }
 }

@@ -1,0 +1,11 @@
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+@media (max-width: 639px) {
+  .chips {
+    gap: var(--space-3);
+  }
+}

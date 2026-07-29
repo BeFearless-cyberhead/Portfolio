@@ -1,0 +1,77 @@
+/* ===== TRACK SWITCHER ===== */
+
+.wrapper {
+  position: sticky;
+  top: 70px;
+  z-index: var(--z-track-switcher);
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+}
+
+.switcher {
+  display: flex;
+  justify-content: center;
+}
+
+.pill {
+  display: inline-flex;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-full);
+  box-shadow:
+    6px 6px 12px var(--color-shadow-dark),
+    -6px -6px 12px var(--color-shadow-light);
+}
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-heading);
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: color var(--dur-fast);
+  z-index: 1;
+}
+
+.btn:hover {
+  color: var(--color-text-primary);
+}
+
+.active {
+  color: var(--color-text-inverse);
+}
+
+.icon {
+  font-size: 1rem;
+}
+
+.indicator {
+  position: absolute;
+  inset: 0;
+  background: var(--color-teal-primary);
+  border-radius: var(--radius-full);
+  z-index: -1;
+  box-shadow: 0 2px 8px rgba(14, 124, 123, 0.3);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 639px) {
+  .wrapper {
+    top: 60px;
+  }
+
+  .btn {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-label);
+  }
+}
