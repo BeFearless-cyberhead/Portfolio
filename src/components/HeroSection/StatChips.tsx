@@ -1,6 +1,5 @@
 'use client';
 
-import { MetricChip } from '@/components/shared/MetricChip';
 import type { PortfolioStat } from '@/types/portfolio';
 import styles from './StatChips.module.css';
 
@@ -18,11 +17,10 @@ export function StatChips() {
   return (
     <div className={styles.chips}>
       {stats.map(stat => (
-        <MetricChip
-          key={stat.key}
-          value={stat.value}
-          label={stat.label}
-        />
+        <div key={stat.key} className={styles.chip}>
+          <span className={styles.chipValue}>{stat.value}</span>
+          <span className={styles.chipLabel}>{stat.label}</span>
+        </div>
       ))}
     </div>
   );

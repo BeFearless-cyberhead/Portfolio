@@ -46,7 +46,7 @@ export function ProjectGrid() {
                 Check out my GitHub for the latest work in this track.
               </p>
               <a
-                href="https://github.com/username"
+                href="https://github.com/ankitkumar"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.emptyLink}

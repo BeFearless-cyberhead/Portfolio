@@ -27,28 +27,28 @@ export function ContactSection() {
             <h3 className={styles.infoTitle}>Connect Directly</h3>
             <div className={styles.infoLinks}>
               <a
-                href="mailto:your.email@example.com"
+                href="mailto:ankitmaurya@example.com"
                 className={styles.infoLink}
               >
-                <span className={styles.infoIcon}>✉️</span>
-                your.email@example.com
+                <span className={styles.infoIcon} aria-hidden="true">@</span>
+                ankitmaurya@example.com
               </a>
               <a
-                href="https://github.com/username"
+                href="https://github.com/ankitkumar"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.infoLink}
               >
-                <span className={styles.infoIcon}>💻</span>
+                <span className={styles.infoIcon} aria-hidden="true">GH</span>
                 GitHub
               </a>
               <a
-                href="https://linkedin.com/in/username"
+                href="https://linkedin.com/in/ankitkumar"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.infoLink}
               >
-                <span className={styles.infoIcon}>🔗</span>
+                <span className={styles.infoIcon} aria-hidden="true">in</span>
                 LinkedIn
               </a>
             </div>

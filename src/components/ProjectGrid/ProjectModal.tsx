@@ -125,10 +125,14 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           {/* Architecture */}
           <div className={styles.architecture}>
             <h3 className={styles.sectionTitle}>Architecture</h3>
-            <div className={styles.archPlaceholder}>
-              <span className={styles.archIcon}>🏗️</span>
-              <p>Architecture diagram</p>
-              <p className={styles.archPath}>{project.modal.architecture}</p>
+            <div className={styles.archDiagram}>
+              <img
+                src={project.modal.architecture}
+                alt={`${project.title} architecture diagram`}
+                width={800}
+                height={400}
+                loading="lazy"
+              />
             </div>
           </div>
 

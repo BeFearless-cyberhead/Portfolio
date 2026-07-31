@@ -223,7 +223,19 @@
 }
 
 .techIcon {
-  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, var(--color-teal-primary), var(--color-teal-hover));
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
 }
 
 .techName {

@@ -139,10 +139,11 @@
 @media (min-width: 1024px) {
   .timeline {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: var(--space-6);
     padding-left: 0;
     padding-top: 50px;
+    overflow-x: auto;
   }
 
   .line {
@@ -184,3 +185,57 @@
     text-align: center;
   }
 }
+
+/* For medium screens, use scrollable 5-col */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(200px, 1fr));
+    gap: var(--space-4);
+    padding-left: 0;
+    padding-top: 50px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .line {
+    left: 0;
+    right: 0;
+    top: 18px;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      var(--color-teal-primary),
+      var(--color-gold-accent),
+      var(--color-teal-primary)
+    );
+  }
+
+  .node {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 200px;
+  }
+
+  .dot {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin-top: -50px;
+    margin-bottom: var(--space-4);
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    align-items: center;
+    text-align: center;
+  }
+}
+

@@ -11,11 +11,12 @@
 }
 
 .navScrolled {
-  background: var(--color-glass-bg);
+  background: color-mix(in srgb, var(--color-bg-primary) 85%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--color-glass-border);
   padding: var(--space-3) var(--space-6);
+  box-shadow: 0 4px 20px -4px var(--color-shadow-dark);
 }
 
 .navInner {

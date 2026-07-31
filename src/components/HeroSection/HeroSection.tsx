@@ -26,7 +26,7 @@ export function HeroSection() {
           className={styles.heroText}
         >
           <h1 className={styles.heroName}>
-            Ankit Kumar
+            Ankit Maurya
           </h1>
 
           <div className={styles.heroSubheadline}>

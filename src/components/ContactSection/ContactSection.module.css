@@ -146,7 +146,18 @@
 }
 
 .infoIcon {
-  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, var(--color-teal-primary), var(--color-teal-hover));
+  flex-shrink: 0;
 }
 
 .responseNote {

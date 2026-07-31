@@ -34,22 +34,22 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Ankit Kumar — AI Engineer & Data Analyst',
+  title: 'Ankit Maurya — AI Engineer & Data Analyst',
   description:
     'AI systems engineer and data analyst specialising in LangGraph, Python, and production-grade AI pipelines. See live projects and architecture deep-dives.',
   metadataBase: new URL('https://ankitkumar.dev'),
   openGraph: {
-    title: 'Ankit Kumar — AI Engineer & Data Analyst',
+    title: 'Ankit Maurya — AI Engineer & Data Analyst',
     description:
       'AI systems engineer and data analyst specialising in LangGraph, Python, and production-grade AI pipelines. See live projects and architecture deep-dives.',
     url: 'https://ankitkumar.dev',
-    siteName: 'Ankit Kumar Portfolio',
+    siteName: 'Ankit Maurya Portfolio',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ankit Kumar — AI Engineer & Data Analyst',
+    title: 'Ankit Maurya — AI Engineer & Data Analyst',
     description:
       'AI systems engineer and data analyst specialising in LangGraph, Python, and production-grade AI pipelines.',
   },
@@ -62,19 +62,19 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Ankit Kumar',
+  name: 'Ankit Maurya',
   jobTitle: 'AI Engineer & Data Analyst',
   url: 'https://ankitkumar.dev',
   image: 'https://ankitkumar.dev/og-image.png',
   sameAs: [
-    'https://github.com/username',
-    'https://linkedin.com/in/username',
+    'https://github.com/ankitmaurya',
+    'https://linkedin.com/in/ankitmaurya',
   ],
   knowsAbout: [
     'Python', 'LangGraph', 'LangChain', 'Data Analytics',
     'AI Engineering', 'Prompt Engineering', 'Supabase', 'React',
   ],
-  alumniOf: { '@type': 'CollegeOrUniversity', name: '[Institution]' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'University' },
 };
 
 export default function RootLayout({
@@ -85,7 +85,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="dark"
+      data-theme=""
       className={`${playfair.variable} ${syne.variable} ${dmSans.variable} ${dmMono.variable}`}
       suppressHydrationWarning
     >

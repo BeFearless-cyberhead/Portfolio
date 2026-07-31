@@ -34,22 +34,31 @@ export function TechStack() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          {filtered.map((tech, i) => (
-            <motion.div
-              key={`${tech.name}-${tech.track}`}
-              className={sharedStyles.techCard}
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                delay: i * 0.04,
-                duration: 0.35,
-                ease: [0.34, 1.56, 0.64, 1],
-              }}
-            >
-              <span className={sharedStyles.techIcon} aria-hidden="true">{tech.icon}</span>
-              <span className={sharedStyles.techName}>{tech.name}</span>
-            </motion.div>
-          ))}
+          {filtered.map((tech, i) => {
+            const IconComponent = tech.icon;
+            return (
+              <motion.div
+                key={`${tech.name}-${tech.track}`}
+                className={sharedStyles.techCard}
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  delay: i * 0.04,
+                  duration: 0.35,
+                  ease: [0.34, 1.56, 0.64, 1],
+                }}
+              >
+                <span
+                  className={sharedStyles.techIcon}
+                  aria-hidden="true"
+                  style={{ background: `linear-gradient(135deg, ${tech.color}, ${tech.color}dd)` }}
+                >
+                  <IconComponent size={22} color="#fff" />
+                </span>
+                <span className={sharedStyles.techName}>{tech.name}</span>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </AnimatePresence>
     </section>

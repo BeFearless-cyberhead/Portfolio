@@ -130,10 +130,10 @@ export function Navigation() {
                 ))}
 
                 <div className={styles.drawerSocials}>
-                  <a href="https://github.com/username" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                  <a href="https://github.com/ankitmaurya" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                     GitHub ↗
                   </a>
-                  <a href="https://linkedin.com/in/username" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                  <a href="https://linkedin.com/in/ankitmaurya" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                     LinkedIn ↗
                   </a>
                 </div>

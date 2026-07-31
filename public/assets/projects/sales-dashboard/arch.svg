@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0E7C7B"/>
+      <stop offset="100%" stop-color="#1FA8A6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" rx="16" fill="#0D1B2A"/>
+  <!-- POS/E-Commerce Sources -->
+  <rect x="40" y="60" width="120" height="50" rx="8" fill="#1A2A3D" stroke="#0E7C7B" stroke-width="1.5"/>
+  <text x="100" y="90" text-anchor="middle" fill="#F1F5F9" font-size="12" font-family="sans-serif">POS Systems</text>
+  <rect x="40" y="130" width="120" height="50" rx="8" fill="#1A2A3D" stroke="#0E7C7B" stroke-width="1.5"/>
+  <text x="100" y="160" text-anchor="middle" fill="#F1F5F9" font-size="12" font-family="sans-serif">E-Commerce</text>
+  <rect x="40" y="200" width="120" height="50" rx="8" fill="#1A2A3D" stroke="#0E7C7B" stroke-width="1.5"/>
+  <text x="100" y="230" text-anchor="middle" fill="#F1F5F9" font-size="12" font-family="sans-serif">Marketplace APIs</text>
+  <!-- Arrows -->
+  <path d="M160 85 L240 170" stroke="#0E7C7B" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M160 155 L240 170" stroke="#0E7C7B" stroke-width="1.5"/>
+  <path d="M160 225 L240 170" stroke="#0E7C7B" stroke-width="1.5"/>
+  <!-- ETL Pipeline -->
+  <rect x="240" y="140" width="140" height="60" rx="12" fill="url(#g1)"/>
+  <text x="310" y="165" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="sans-serif">Pandas ETL</text>
+  <text x="310" y="185" text-anchor="middle" fill="#fff" font-size="10" font-family="sans-serif">Clean · Enrich · Dedupe</text>
+  <!-- Arrow -->
+  <path d="M380 170 L440 170" stroke="#C9A84C" stroke-width="2"/>
+  <!-- Anomaly Detection -->
+  <rect x="440" y="140" width="140" height="60" rx="12" fill="#1A2A3D" stroke="#C9A84C" stroke-width="1.5"/>
+  <text x="510" y="165" text-anchor="middle" fill="#E8C46A" font-size="12" font-weight="bold" font-family="sans-serif">Anomaly Detection</text>
+  <text x="510" y="185" text-anchor="middle" fill="#94A3B8" font-size="10" font-family="sans-serif">Z-Score · Rolling Avg</text>
+  <!-- Arrow -->
+  <path d="M580 170 L640 170" stroke="#0E7C7B" stroke-width="2"/>
+  <!-- Dashboard -->
+  <rect x="640" y="100" width="120" height="80" rx="12" fill="#1A2A3D" stroke="#0E7C7B" stroke-width="2"/>
+  <text x="700" y="135" text-anchor="middle" fill="#1FA8A6" font-size="13" font-weight="bold" font-family="sans-serif">React + D3</text>
+  <text x="700" y="155" text-anchor="middle" fill="#94A3B8" font-size="10" font-family="sans-serif">12 KPI Charts</text>
+  <text x="700" y="170" text-anchor="middle" fill="#94A3B8" font-size="10" font-family="sans-serif">Real-time</text>
+  <!-- Supabase -->
+  <rect x="440" y="280" width="140" height="50" rx="8" fill="#1A2A3D" stroke="#3FCF8E" stroke-width="1.5"/>
+  <text x="510" y="310" text-anchor="middle" fill="#3FCF8E" font-size="12" font-weight="bold" font-family="sans-serif">Supabase</text>
+  <path d="M510 280 L510 200" stroke="#3FCF8E" stroke-width="1" stroke-dasharray="4"/>
+  <path d="M510 280 L700 180" stroke="#3FCF8E" stroke-width="1" stroke-dasharray="4"/>
+  <!-- Title -->
+  <text x="400" y="370" text-anchor="middle" fill="#5A6375" font-size="11" font-family="sans-serif">Sales Analytics Pipeline Architecture</text>
+</svg>
