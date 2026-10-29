@@ -1,181 +1,179 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { createPortal } from 'react-dom';
+import { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { Project } from '@/types/portfolio';
-import { Tag } from '@/components/shared/Tag';
-import { MetricChip } from '@/components/shared/MetricChip';
 import styles from './ProjectModal.module.css';
 
-interface ProjectModalProps {
-  project: Project;
+const EASE = [0.34, 1.56, 0.64, 1] as const;
+
+interface Props {
+  project: Project | null;
   onClose: () => void;
 }
 
-export function ProjectModal({ project, onClose }: ProjectModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const previousFocus = useRef<HTMLElement | null>(null);
+/**
+ * Portal-mounted glass dialog. Focus is trapped while open, ESC closes,
+ * and focus returns to the invoking element (handled by the store of the
+ * last-focused trigger in the document body via data attribute game below).
+ */
+export function ProjectModal({ project: p, onClose }: Props) {
+  const panelRef = useRef<HTMLDivElement>(null);
 
-  // Focus trap
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      onClose();
-      return;
-    }
+  // Focus trap + ESC
+  useEffect(() => {
+    if (!p) return;
 
-    if (e.key === 'Tab' && modalRef.current) {
-      const focusable = modalRef.current.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    document.body.style.overflow = 'hidden';
 
-      if (e.shiftKey) {
-        if (document.activeElement === first) {
+    const panel = panelRef.current;
+    panel?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+      if (e.key === 'Tab' && panel) {
+        const focusables = panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), pre[tabindex], [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
           e.preventDefault();
           last.focus();
-        }
-      } else {
-        if (document.activeElement === last) {
+        } else if (!e.shiftKey && document.activeElement === last) {
           e.preventDefault();
           first.focus();
         }
       }
-    }
-  }, [onClose]);
-
-  useEffect(() => {
-    previousFocus.current = document.activeElement as HTMLElement;
-    document.body.classList.add('scroll-locked');
-    document.addEventListener('keydown', handleKeyDown);
-
-    // Focus first element
-    const timer = setTimeout(() => {
-      const firstFocusable = modalRef.current?.querySelector<HTMLElement>('button');
-      firstFocusable?.focus();
-    }, 100);
-
-    return () => {
-      document.body.classList.remove('scroll-locked');
-      document.removeEventListener('keydown', handleKeyDown);
-      clearTimeout(timer);
-      previousFocus.current?.focus();
     };
-  }, [handleKeyDown]);
 
-  const modalContent = (
-    <>
-      {/* Overlay */}
-      <motion.div
-        className={styles.overlay}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-        aria-hidden="true"
-      />
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+      previouslyFocused?.focus?.();
+    };
+  }, [p, onClose]);
 
-      {/* Modal Panel */}
-      <motion.div
-        ref={modalRef}
-        className={styles.panel}
-        role="dialog"
-        aria-modal="true"
-        aria-label={`${project.title} details`}
-        initial={{ opacity: 0, scale: 0.92, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.92, y: 20 }}
-        transition={{ duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
-      >
-        {/* Close button */}
-        <button
-          className={styles.closeBtn}
-          onClick={onClose}
-          aria-label="Close modal"
+  return (
+    <AnimatePresence>
+      {p && (
+        <motion.div
+          className={styles.overlay}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          onClick={(e) => e.target === e.currentTarget && onClose()}
         >
-          ✕
-        </button>
+          <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={p.title}
+            tabIndex={-1}
+            className={`${styles.panel} glass`}
+            initial={{ opacity: 0, y: 32, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.97 }}
+            transition={{ duration: 0.4, ease: EASE }}
+          >
+            <header className={styles.header}>
+              <div>
+                <h3 className={styles.title}>{p.title}</h3>
+                {p.repoUrl && (
+                  <a
+                    href={p.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.repoLink}
+                  >
+                    View on GitHub ↗
+                  </a>
+                )}
+              </div>
+              <button
+                type="button"
+                className={styles.close}
+                onClick={onClose}
+                aria-label="Close project details"
+              >
+                ✕
+              </button>
+            </header>
 
-        <div className={styles.content}>
-          {/* Header */}
-          <div className={styles.header}>
-            <h2 className={styles.title}>{project.title}</h2>
             <div className={styles.metrics}>
-              {project.metrics.map(m => (
-                <MetricChip key={m.label} value={m.value} label={m.label} />
+              {p.metrics.map((m) => (
+                <span key={m.label} className="chip">
+                  <b>{m.value}</b>
+                  <span>{m.label}</span>
+                </span>
               ))}
             </div>
-          </div>
 
-          {/* Description */}
-          <div className={styles.description}>
-            {project.modal.description.split('\n\n').map((para, i) => (
-              <p key={i}>{para}</p>
-            ))}
-          </div>
+            <div className={styles.body}>
+              <div className={styles.reading}>
+                <p className={styles.description}>{p.modal.description}</p>
 
-          {/* Tags */}
-          <div className={styles.tags}>
-            {project.tags.map(tag => (
-              <Tag key={tag} label={tag} />
-            ))}
-          </div>
+                {p.modal.architecture && (
+                  <figure className={styles.arch}>
+                    <Image
+                      src={p.modal.architecture}
+                      alt={`Architecture diagram for ${p.title}`}
+                      width={800}
+                      height={450}
+                      className={styles.archImg}
+                    />
+                    <figcaption className={styles.archCaption}>
+                      Architecture flow
+                    </figcaption>
+                  </figure>
+                )}
 
-          {/* Architecture */}
-          <div className={styles.architecture}>
-            <h3 className={styles.sectionTitle}>Architecture</h3>
-            <div className={styles.archDiagram}>
-              <img
-                src={project.modal.architecture}
-                alt={`${project.title} architecture diagram`}
-                width={800}
-                height={400}
-                loading="lazy"
-              />
+                {p.modal.codeSnippet && (
+                  <figure className={styles.code}>
+                    <figcaption className={styles.codeCaption}>
+                      {p.modal.codeSnippet.caption}
+                    </figcaption>
+                    <pre tabIndex={0} className={styles.codeBlock}>
+                      <code>{p.modal.codeSnippet.code}</code>
+                    </pre>
+                  </figure>
+                )}
+              </div>
+
+              <aside className={styles.side}>
+                <p className={styles.sideLabel}>Built with</p>
+                <div className={styles.sideTags}>
+                  {p.tags.map((t) => (
+                    <span key={t} className="tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                {p.liveUrl && (
+                  <a
+                    href={p.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`btn btn--primary ${styles.liveCta}`}
+                  >
+                    Open live demo
+                  </a>
+                )}
+              </aside>
             </div>
-          </div>
-
-          {/* Code Snippet */}
-          {project.modal.codeSnippet && (
-            <div className={styles.codeSection}>
-              <h3 className={styles.sectionTitle}>Key Implementation</h3>
-              <pre className={styles.codeBlock}>
-                <code>{project.modal.codeSnippet.code}</code>
-              </pre>
-              {project.modal.codeSnippet.caption && (
-                <p className={styles.codeCaption}>{project.modal.codeSnippet.caption}</p>
-              )}
-            </div>
-          )}
-
-          {/* Links */}
-          <div className={styles.links}>
-            {project.repoUrl && (
-              <a
-                href={project.repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.linkBtn}
-              >
-                View on GitHub ↗
-              </a>
-            )}
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.linkBtn}
-              >
-                Live Demo ↗
-              </a>
-            )}
-          </div>
-        </div>
-      </motion.div>
-    </>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
-
-  return createPortal(modalContent, document.body);
 }

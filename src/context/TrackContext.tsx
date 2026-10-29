@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { Track } from '@/types/portfolio';
 
 interface TrackContextValue {
@@ -22,6 +22,7 @@ export function TrackProvider({ children }: { children: React.ReactNode }) {
 
   const [activeTrack, setActiveTrack] = useState<Track>(getInitial);
 
+  // Keep the shareable URL in sync (?track=ai)
   useEffect(() => {
     const url = new URL(window.location.href);
     url.searchParams.set('track', activeTrack);

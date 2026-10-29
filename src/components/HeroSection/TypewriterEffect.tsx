@@ -1,80 +1,72 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import styles from './TypewriterEffect.module.css';
+import { useEffect, useState } from 'react';
+import styles from '../HeroSection/HeroSection.module.css';
 
-interface TypewriterEffectProps {
-  strings: string[];
-  typingSpeed?: number;
-  pauseDuration?: number;
-  maxCycles?: number;
-}
+const ROLES = [
+  'AI Systems Engineer',
+  'Data Analytics Lead',
+  'LangGraph Architect',
+] as const;
 
-export function TypewriterEffect({
-  strings,
-  typingSpeed = 80,
-  pauseDuration = 2000,
-  maxCycles = 3,
-}: TypewriterEffectProps) {
-  const [displayText, setDisplayText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [stringIndex, setStringIndex] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
-  const cycleCount = useRef(0);
-  const prefersReducedMotion = useRef(false);
+/**
+ * Cycles through job titles character-by-character
+ * (80ms/char, 2s hold before erase). All state transitions happen
+ * inside timer callbacks (never synchronously in the effect body),
+ * which keeps rendering predictable.
+ * Respects prefers-reduced-motion: settles on the first role with no loop.
+ */
+export function TypewriterEffect() {
+  const [text, setText] = useState('');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [phase, setPhase] = useState<'typing' | 'holding' | 'erasing'>('typing');
 
   useEffect(() => {
-    prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion.current) {
-      setDisplayText(strings[0]);
-      setIsComplete(true);
-    }
-  }, [strings]);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const current = ROLES[roleIndex];
 
-  useEffect(() => {
-    if (isComplete || prefersReducedMotion.current) return;
-
-    const currentString = strings[stringIndex];
-
-    let timeout: NodeJS.Timeout;
-
-    if (!isDeleting) {
-      if (displayText.length < currentString.length) {
-        timeout = setTimeout(() => {
-          setDisplayText(currentString.slice(0, displayText.length + 1));
-        }, typingSpeed);
-      } else {
-        timeout = setTimeout(() => {
-          setIsDeleting(true);
-        }, pauseDuration);
+    if (reduced) {
+      // Static end-state: show the first role, run no loop
+      if (text !== current) {
+        const hop = setTimeout(() => setText(current), 16);
+        return () => clearTimeout(hop);
       }
+      return;
+    }
+
+    let t: ReturnType<typeof setTimeout> | undefined;
+
+    if (phase === 'typing') {
+      if (text.length < current.length) {
+        t = setTimeout(() => setText(current.slice(0, text.length + 1)), 80);
+      } else {
+        t = setTimeout(() => setPhase('holding'), 2000);
+      }
+    } else if (phase === 'holding') {
+      t = setTimeout(() => setPhase('erasing'), 2000);
     } else {
-      if (displayText.length > 0) {
-        timeout = setTimeout(() => {
-          setDisplayText(displayText.slice(0, -1));
-        }, typingSpeed / 2);
+      // erasing
+      if (text.length > 0) {
+        t = setTimeout(() => setText(current.slice(0, text.length - 1)), 40);
       } else {
-        const nextIndex = (stringIndex + 1) % strings.length;
-        if (nextIndex === 0) {
-          cycleCount.current++;
-          if (cycleCount.current >= maxCycles) {
-            setDisplayText(strings[0]);
-            setIsComplete(true);
-            return;
-          }
-        }
-        setStringIndex(nextIndex);
-        setIsDeleting(false);
+        t = setTimeout(() => {
+          setRoleIndex((i) => (i + 1) % ROLES.length);
+          setPhase('typing');
+        }, 240);
       }
     }
 
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, stringIndex, strings, typingSpeed, pauseDuration, maxCycles, isComplete]);
+    return () => t && clearTimeout(t);
+  }, [text, phase, roleIndex]);
 
   return (
-    <span className={styles.typewriter}>
-      {displayText}
-      {!isComplete && <span className={styles.cursor}>|</span>}
-    </span>
+    <p className={styles.typewriter}>
+      {/* Screen readers: announce the stable role list, skip the animation */}
+      <span className={styles.visuallyHidden}>Available roles I take on:</span>
+      <span aria-hidden="true">
+        <span className={styles.typewriterText}>{text}</span>
+        <span className={styles.typewriterCaret} />
+      </span>
+    </p>
   );
 }

@@ -1,0 +1,52 @@
+/* Fixed full-viewport stage behind all content.
+   --temple-dim (0 → 1) is written by the component's scroll handler:
+   0 = landing view (temple fully vivid), 1 = scrolled into content
+   (temple reduced to translucent atmosphere). */
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  --temple-dim: 0;
+}
+
+/* The scene fills its parent — required by the ThreeUI component contract.
+   Fades to 30% strength once fully scrolled so the temple stays visible
+   but text always reads on top of it. */
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: calc(1 - (var(--temple-dim, 0) * 0.7));
+}
+
+/* Scroll scrim — settles over the temple as the page scrolls, deepening
+   contrast between the fixed background and the scrolling content */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 6, 10, 0.5);
+  opacity: var(--temple-dim, 0);
+}
+
+/* Center-weighted darkening so headline text stays readable over
+   the lantern glow and vermilion moon */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(4, 6, 10, 0.55) 100%),
+    linear-gradient(180deg, rgba(4, 6, 10, 0.35) 0%, transparent 18%, transparent 60%, rgba(4, 6, 10, 0.6) 100%);
+}
+
+/* Warm haze rising from the page floor — gives glass panels ground to sit on */
+.rise {
+  position: absolute;
+  inset: auto 0 0;
+  height: 42%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(233, 180, 76, 0.03) 55%,
+    rgba(10, 7, 4, 0.42) 100%
+  );
+}

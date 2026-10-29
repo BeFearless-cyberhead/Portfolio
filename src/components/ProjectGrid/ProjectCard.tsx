@@ -1,77 +1,82 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import type { Project } from '@/types/portfolio';
-import { Tag } from '@/components/shared/Tag';
-import { MetricChip } from '@/components/shared/MetricChip';
 import styles from './ProjectGrid.module.css';
 
-interface ProjectCardProps {
+interface Props {
   project: Project;
   index: number;
-  onOpenModal: () => void;
+  onOpen: () => void;
 }
 
-export function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
+const EASE = [0.34, 1.56, 0.64, 1] as const;
+
+export function ProjectCard({ project: p, index, onOpen }: Props) {
   return (
     <motion.article
       className={styles.card}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        delay: index * 0.06,
-        duration: 0.4,
-        ease: [0.34, 1.56, 0.64, 1],
-      }}
+      initial={{ opacity: 0, y: 24, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ delay: index * 60, duration: 0.4, ease: EASE }}
     >
-      {/* Thumbnail */}
-      <div className={styles.cardThumb}>
-        <img
-          src={project.thumbnail}
-          alt={`${project.title} project thumbnail`}
-          loading="lazy"
-          width={800}
-          height={480}
-        />
-        <div className={styles.cardThumbOverlay} />
-      </div>
+      <button
+        type="button"
+        className={styles.cardButton}
+        onClick={onOpen}
+        aria-haspopup="dialog"
+        aria-label={`Open project details: ${p.title}`}
+      >
+        {/* Thumbnail — melts into the panel instead of sitting as a boxed
+            screenshot; the veil carries the card's panel tone at the bottom */}
+        <span className={styles.thumbWrap}>
+          <Image
+            src={p.thumbnail}
+            alt={`${p.title} thumbnail`}
+            fill
+            sizes="(max-width: 900px) 100vw, 50vw"
+            className={styles.thumb}
+          />
+          <span className={styles.thumbVeil} aria-hidden="true" />
+          <span className={styles.thumbIndex} aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+        </span>
 
-      {/* Content */}
-      <div className={styles.cardBody}>
-        <h3 className={styles.cardTitle}>{project.title}</h3>
-        <p className={styles.cardHook}>{project.hook}</p>
+        <span className={styles.cardBody}>
+          <span className={styles.cardEyebrow} aria-hidden="true">
+            {String(index + 1).padStart(2, '0')} &middot; Architecture story
+          </span>
+          <h3 className={styles.cardTitle}>{p.title}</h3>
+          <p className={styles.cardHook}>{p.hook}</p>
 
-        {/* Metrics */}
-        <div className={styles.cardMetrics}>
-          {project.metrics.map(m => (
-            <MetricChip key={m.label} value={m.value} label={m.label} />
-          ))}
-        </div>
+          {/* Stat strip — the numbers lead, hairline-divided like a ledger */}
+          <span className={styles.cardStats}>
+            {p.metrics.map((m) => (
+              <span key={m.label} className={styles.stat}>
+                <b>{m.value}</b>
+                <span>{m.label}</span>
+              </span>
+            ))}
+          </span>
 
-        {/* Tags */}
-        <div className={styles.cardTags}>
-          {project.tags.map(tag => (
-            <Tag key={tag} label={tag} />
-          ))}
-        </div>
+          <span className={styles.cardTags}>
+            {p.tags.map((t) => (
+              <span key={t} className="tag">
+                {t}
+              </span>
+            ))}
+          </span>
 
-        {/* Actions */}
-        <div className={styles.cardActions}>
-          <button onClick={onOpenModal} className={styles.cardCta}>
-            View Architecture →
-          </button>
-          {project.repoUrl && (
-            <a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.cardLink}
-            >
-              GitHub ↗
-            </a>
-          )}
-        </div>
-      </div>
+          <span className={styles.cardCta}>
+            <span>View architecture</span>
+            <span className={styles.ctaArrow} aria-hidden="true">
+              →
+            </span>
+          </span>
+        </span>
+      </button>
     </motion.article>
   );
 }

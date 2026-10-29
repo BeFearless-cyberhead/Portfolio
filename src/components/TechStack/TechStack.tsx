@@ -1,66 +1,62 @@
 'use client';
 
-import { useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useTrack } from '@/context/TrackContext';
 import { techStack } from '@/data/techStack';
 import styles from './TechStack.module.css';
-import sharedStyles from '@/components/shared/shared.module.css';
+
+const EASE = [0.34, 1.56, 0.64, 1] as const;
 
 export function TechStack() {
   const { activeTrack } = useTrack();
 
-  const filtered = useMemo(() =>
-    techStack.filter(t => t.track === activeTrack || t.track === 'shared'),
-    [activeTrack]
+  const visible = techStack.filter(
+    (t) => t.track === activeTrack || t.track === 'shared',
   );
 
   return (
-    <section id="arsenal" className="section" aria-label="Technical skills">
-      <div className={sharedStyles.sectionHeading}>
-        <p className="section-label">Tech Arsenal</p>
-        <h2 className="section-title">Tools & Technologies</h2>
-        <p className="section-subtitle">
-          The instruments I use to turn data into decisions and ideas into production systems.
+    <section id="arsenal" className="section" aria-label="Technology arsenal">
+      <div className="section__inner">
+        <p className="section__eyebrow">01 · The Arsenal</p>
+        <h2 className="section__title">Lanterns on the path</h2>
+        <p className="section__intro">
+          Every tool I carry, lit for the track above. Shared foundations stay lit in
+          both worlds.
         </p>
-      </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTrack}
-          className={styles.grid}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {filtered.map((tech, i) => {
-            const IconComponent = tech.icon;
-            return (
-              <motion.div
-                key={`${tech.name}-${tech.track}`}
-                className={sharedStyles.techCard}
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  delay: i * 0.04,
-                  duration: 0.35,
-                  ease: [0.34, 1.56, 0.64, 1],
-                }}
-              >
-                <span
-                  className={sharedStyles.techIcon}
-                  aria-hidden="true"
-                  style={{ background: `linear-gradient(135deg, ${tech.color}, ${tech.color}dd)` }}
+        <AnimatePresence mode="wait">
+          <motion.ul
+            key={activeTrack}
+            className={styles.grid}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {visible.map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.li
+                  key={`${activeTrack}-${item.name}`}
+                  className={styles.card}
+                  initial={{ opacity: 0, y: 18, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: i * 60, duration: 0.35, ease: EASE }}
                 >
-                  <IconComponent size={22} color="#fff" />
-                </span>
-                <span className={sharedStyles.techName}>{tech.name}</span>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </AnimatePresence>
+                  <span
+                    className={styles.iconRing}
+                    style={{ '--brand': item.color } as React.CSSProperties}
+                    aria-hidden="true"
+                  >
+                    <Icon />
+                  </span>
+                  <span className={styles.name}>{item.name}</span>
+                </motion.li>
+              );
+            })}
+          </motion.ul>
+        </AnimatePresence>
+      </div>
     </section>
   );
 }

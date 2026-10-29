@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+     
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#5a6375"/>
+    </marker>
+  </defs>
+     <rect width="800" height="450" rx="10" fill="#f7f2e8"/>
+     
+    <text x="400" y="34" text-anchor="middle" font-family="Consolas, 'Courier New', monospace"
+     font-size="17" font-weight="bold" letter-spacing="2" fill="#33414f">SOURCELENS — GROUNDED RAG PIPELINE</text>
+    
+    <g>
+      <rect x="28" y="86" width="150" height="58" rx="9" fill="#ffffff" stroke="#2a7f76" stroke-width="2"/>
+      
+      <text x="103" y="112" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">PDFs</text><text x="103" y="130" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">internal wiki</text>
+    </g>
+    
+    <g>
+      <rect x="28" y="162" width="150" height="58" rx="9" fill="#ffffff" stroke="#2a7f76" stroke-width="2"/>
+      
+      <text x="103" y="188" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">tickets</text><text x="103" y="206" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">web pages</text>
+    </g>
+    
+    <g>
+      <rect x="28" y="238" width="150" height="58" rx="9" fill="#ffffff" stroke="#2a7f76" stroke-width="2"/>
+      
+      <text x="103" y="264" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">CSV / JSON</text><text x="103" y="282" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">exports</text>
+    </g>
+    <text x="103" y="330" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#5a6375">domain sources</text>
+
+    
+    <g>
+      <rect x="258" y="96" width="200" height="74" rx="9" fill="#ffffff" stroke="#b98a1f" stroke-width="2"/>
+      <text x="358" y="114" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="15" font-weight="bold" fill="#b98a1f">Ingestion</text>
+      <text x="358" y="138" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">semantic chunking</text><text x="358" y="156" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">512-token windows</text>
+    </g>
+    
+    <g>
+      <rect x="258" y="196" width="200" height="72" rx="9" fill="#ffffff" stroke="#b98a1f" stroke-width="2"/>
+      <text x="358" y="214" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="15" font-weight="bold" fill="#b98a1f">Vector Index</text>
+      <text x="358" y="238" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">bge-small embeddings</text>
+    </g>
+    
+    <g>
+      <rect x="258" y="296" width="200" height="74" rx="9" fill="#ffffff" stroke="#b98a1f" stroke-width="2"/>
+      <text x="358" y="314" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="15" font-weight="bold" fill="#b98a1f">Retriever</text>
+      <text x="358" y="338" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">top-50 recall</text>
+    </g>
+
+    
+    <g>
+      <rect x="520" y="196" width="210" height="72" rx="9" fill="#ffffff" stroke="#c24331" stroke-width="2"/>
+      <text x="625" y="214" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="15" font-weight="bold" fill="#c24331">Re-rank Agent</text>
+      <text x="625" y="238" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">query decomposition</text><text x="625" y="256" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">cross-encoder scoring</text>
+    </g>
+    
+    <g>
+      <rect x="520" y="86" width="210" height="74" rx="9" fill="#ffffff" stroke="#c24331" stroke-width="2"/>
+      <text x="625" y="104" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="15" font-weight="bold" fill="#c24331">Answer Synthesis</text>
+      <text x="625" y="128" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">LangGraph flow</text><text x="625" y="146" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">grounding guardrails</text>
+    </g>
+    
+    <g>
+      <rect x="520" y="296" width="210" height="74" rx="9" fill="#ffffff" stroke="#c24331" stroke-width="2"/>
+      <text x="625" y="314" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="15" font-weight="bold" fill="#c24331">Citations</text>
+      <text x="625" y="338" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">answer + [1][2][3]</text><text x="625" y="356" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#212a33">chat history</text>
+    </g>
+
+    
+    <g>
+      <rect x="60" y="366" width="250" height="56" rx="9" fill="#ffffff" stroke="#2a7f76" stroke-width="2"/>
+      <text x="185" y="383" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="14" font-weight="bold" fill="#2a7f76">Chat Interface</text>
+      <text x="185" y="405.5" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="12" fill="#212a33">FastAPI · streaming SSE</text>
+    </g>
+    
+    <g>
+      <rect x="480" y="366" width="250" height="56" rx="9" fill="#ffffff" stroke="#2a7f76" stroke-width="2"/>
+      <text x="605" y="383" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="14" font-weight="bold" fill="#2a7f76">Groundedness Check</text>
+      <text x="605" y="405.5" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="12" fill="#212a33">no source, no answer</text>
+    </g>
+
+    <path d="M 178 115 C 215 115, 215 126, 252 126" fill="none" stroke="#5a6375" stroke-width="1.8"
+     marker-end="url(#ah)"/>
+    <path d="M 178 191 C 215 191, 215 146, 252 146" fill="none" stroke="#5a6375" stroke-width="1.8"
+     marker-end="url(#ah)"/>
+    <path d="M 178 267 C 215 267, 215 280, 252 280" fill="none" stroke="#5a6375" stroke-width="1.8"
+    stroke-dasharray="5 4" marker-end="url(#ah)"/>
+    <path d="M 358 170 C 358 182, 358 182, 358 194" fill="none" stroke="#5a6375" stroke-width="1.8"
+     marker-end="url(#ah)"/>
+    <path d="M 358 268 C 358 280, 358 280, 358 292" fill="none" stroke="#5a6375" stroke-width="1.8"
+     marker-end="url(#ah)"/>
+    <path d="M 458 232 C 487 232, 487 232, 516 232" fill="none" stroke="#5a6375" stroke-width="1.8"
+     marker-end="url(#ah)"/>
+    <path d="M 458 320 C 487 320, 487 330, 516 330" fill="none" stroke="#5a6375" stroke-width="1.8"
+    stroke-dasharray="5 4" marker-end="url(#ah)"/>
+    <path d="M 625 268 C 625 280, 625 280, 625 292" fill="none" stroke="#5a6375" stroke-width="1.8"
+     marker-end="url(#ah)"/>
+    <path d="M 660 160 C 660 177, 660 177, 660 194" fill="none" stroke="#c24331" stroke-width="1.8"
+     marker-end="url(#ah)"/>
+    <path d="M 645 296 C 572.5 296, 572.5 300, 500 300" fill="none" stroke="#5a6375" stroke-width="1.8"
+    stroke-dasharray="5 4" marker-end="url(#ah)"/>
+    <path d="M 310 366 C 310 283, 310 283, 310 200" fill="none" stroke="#5a6375" stroke-width="1.8"
+    stroke-dasharray="5 4" marker-end="url(#ah)"/>
+  
+   </svg>

@@ -1,5 +1,6 @@
 import { Navigation } from '@/components/Navigation/Navigation';
 import { HeroSection } from '@/components/HeroSection/HeroSection';
+import { TempleBackground } from '@/components/TempleBackground/TempleBackground';
 import { TrackSwitcher } from '@/components/TrackSwitcher/TrackSwitcher';
 import { TechStack } from '@/components/TechStack/TechStack';
 import { ProjectGrid } from '@/components/ProjectGrid/ProjectGrid';
@@ -10,7 +11,11 @@ import styles from './page.module.css';
 export default function Home() {
   return (
     <>
+      {/* The living Kyoto night-temple scene: fixed behind everything */}
+      <TempleBackground />
+
       <Navigation />
+
       <HeroSection />
       <TrackSwitcher />
       <TechStack />
@@ -18,20 +23,23 @@ export default function Home() {
       <KaizenTimeline />
       <ContactSection />
 
-      {/* Footer */}
+      {/* Footer — the evening gate */}
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
-          <p className={styles.footerCopy}>
-            © {new Date().getFullYear()} Ankit Maurya · Built with Next.js, TypeScript &amp; Supabase
+          <p className={styles.footerMark} aria-hidden="true">
+            夜の道 · The night path
           </p>
-          <div className={styles.footerLinks}>
-            <a href="https://github.com/ankitmaurya" target="_blank" rel="noopener noreferrer">
+          <p className={styles.footerCopy}>
+            © {new Date().getFullYear()} Ankit Maurya · Built with Next.js, TypeScript, Three.js &amp; Supabase
+          </p>
+          <nav className={styles.footerLinks} aria-label="Social links">
+            <a href="https://github.com/BeFearless-cyberhead" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
-            <a href="https://linkedin.com/in/ankitmaurya" target="_blank" rel="noopener noreferrer">
+            <a href="https://linkedin.com/in/ankit-maurya-2123ab307" target="_blank" rel="noopener noreferrer">
               LinkedIn
             </a>
-          </div>
+          </nav>
         </div>
       </footer>
     </>

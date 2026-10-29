@@ -12,7 +12,7 @@ export interface CodeBlock {
 }
 
 export interface Project {
-  id:         string;           // kebab-case, e.g. "financial-tracker"
+  id:         string;           // kebab-case, e.g. "source-lens"
   track:      'data' | 'ai';   // which TrackSwitcher panel
   title:      string;
   hook:       string;           // 1-sentence value prop — card face
