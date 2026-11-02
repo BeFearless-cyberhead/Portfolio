@@ -16,7 +16,8 @@
   position: relative;
   z-index: var(--z-panel);
   width: min(960px, 100%);
-  max-height: calc(100svh - var(--space-8));
+  min-width: 0;
+  max-height: calc(100dvh - var(--space-8));
   display: flex;
   flex-direction: column;
   background: var(--panel-strong);
@@ -32,6 +33,18 @@
   gap: var(--space-6);
   padding: var(--space-6) var(--space-8) var(--space-4);
   border-bottom: 1px solid var(--hairline);
+  flex-shrink: 0;
+}
+
+.header > div {
+  min-width: 0;
+}
+
+.content {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .title {
@@ -57,6 +70,7 @@
   place-items: center;
   min-width: 44px;
   min-height: 44px;
+  flex-shrink: 0;
   border: 1px solid var(--hairline);
   border-radius: 50%;
   background: var(--panel-soft);
@@ -75,15 +89,46 @@
   padding: var(--space-4) var(--space-8) 0;
 }
 
+.caseStudy {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-8) 0;
+}
+
+.caseStudy article {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  padding: var(--space-4);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--panel-soft);
+}
+
+.caseStudy h4 {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.caseStudy p {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--color-ink-muted);
+}
+
 .body {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
+  grid-template-columns: minmax(0, 1fr) 200px;
   gap: var(--space-8);
-  overflow-y: auto;
   padding: var(--space-6) var(--space-8) var(--space-8);
 }
 
 .reading {
+  min-width: 0;
   display: grid;
   gap: var(--space-6);
   align-content: start;
@@ -95,6 +140,7 @@
 }
 
 .arch {
+  min-width: 0;
   display: grid;
   gap: var(--space-2);
   padding: var(--space-4);
@@ -119,6 +165,7 @@
 }
 
 .code {
+  min-width: 0;
   display: grid;
   gap: var(--space-2);
 }
@@ -129,6 +176,7 @@
   color: var(--color-ink-muted);
 }
 .codeBlock {
+  max-width: 100%;
   overflow-x: auto;
   padding: var(--space-6);
   border: 1px solid var(--hairline);
@@ -141,6 +189,7 @@
 }
 
 .side {
+  min-width: 0;
   display: grid;
   gap: var(--space-4);
   align-content: start;
@@ -166,6 +215,12 @@
   margin-top: var(--space-2);
 }
 
+@media (max-width: 1024px) {
+  .caseStudy {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 /* Mobile: bottom sheet instead of centred panel */
 @media (max-width: 760px) {
   .overlay {
@@ -175,12 +230,13 @@
 
   .panel {
     width: 100%;
-    max-height: 92svh;
+    max-height: calc(100dvh - max(16px, env(safe-area-inset-top, 0px)));
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
 
   .header,
   .metrics,
+  .caseStudy,
   .body {
     padding-left: var(--space-4);
     padding-right: var(--space-4);
@@ -191,7 +247,26 @@
     gap: var(--space-6);
   }
 
+  .caseStudy {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .side {
     position: static;
+  }
+
+  .header {
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+  }
+
+  .codeBlock {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .caseStudy {
+    grid-template-columns: 1fr;
   }
 }

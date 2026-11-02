@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Navigation.module.css';
 
 const LINKS = [
+  { href: '#arsenal', label: 'Toolkit' },
   { href: '#projects', label: 'Projects' },
-  { href: '#arsenal', label: 'Arsenal' },
+  { href: '#notes', label: 'Notes' },
   { href: '#kaizen', label: 'Kaizen' },
   { href: '#contact', label: 'Contact' },
 ];
@@ -13,6 +14,9 @@ const LINKS = [
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -21,11 +25,46 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock body scroll while the drawer is open
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open) return;
+
+    const trigger = triggerRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setOpen(false);
+      }
+      if (event.key !== 'Tab') return;
+
+      const focusable = drawerRef.current?.querySelectorAll<HTMLElement>('a[href], button');
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    const desktop = window.matchMedia('(min-width: 961px)');
+    const onDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    desktop.addEventListener('change', onDesktop);
+
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', onKeyDown);
+      desktop.removeEventListener('change', onDesktop);
+      trigger?.focus({ preventScroll: true });
     };
   }, [open]);
 
@@ -58,6 +97,7 @@ export function Navigation() {
           </ul>
 
           <button
+            ref={triggerRef}
             type="button"
             className={styles.burger}
             aria-expanded={open}
@@ -72,7 +112,16 @@ export function Navigation() {
       </header>
 
       {/* Mobile drawer */}
+      <button
+        type="button"
+        className={styles.backdrop}
+        hidden={!open}
+        tabIndex={-1}
+        aria-label="Dismiss navigation"
+        onClick={close}
+      />
       <div
+        ref={drawerRef}
         id="mobile-drawer"
         className={`${styles.drawer} ${open ? styles.drawerOpen : ''}`}
         role="dialog"
@@ -80,9 +129,15 @@ export function Navigation() {
         aria-label="Site navigation"
         hidden={!open}
       >
+        <div className={styles.drawerHeader}>
+          <span className={styles.drawerLabel}>The night path</span>
+          <button ref={closeRef} type="button" className={styles.drawerClose} onClick={close} aria-label="Close navigation">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
         <ul className={styles.drawerLinks}>
-          {LINKS.map((l, i) => (
-            <li key={l.href} style={{ transitionDelay: `${i * 40}ms` }}>
+          {LINKS.map((l) => (
+            <li key={l.href}>
               <a href={l.href} className={styles.drawerLink} onClick={close}>
                 {l.label}
               </a>

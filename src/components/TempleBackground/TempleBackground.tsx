@@ -110,12 +110,18 @@ export function TempleBackground() {
       };
     };
 
-    // The canvas mounts after the dynamic import resolves — retry briefly
+    // The canvas mounts after the dynamic import resolves — retry briefly.
+    // If WebGL or the optional scene fails, the CSS lantern fallback remains
+    // active and this poll must not run for the lifetime of the page.
+    let attempts = 0;
     const interval = setInterval(() => {
+      attempts += 1;
       const canvas = scene.querySelector('canvas');
       if (canvas) {
         clearInterval(interval);
         detach = attach(canvas);
+      } else if (attempts >= 50) {
+        clearInterval(interval);
       }
     }, 100);
 

@@ -1,9 +1,9 @@
 import { Navigation } from '@/components/Navigation/Navigation';
 import { HeroSection } from '@/components/HeroSection/HeroSection';
 import { TempleBackground } from '@/components/TempleBackground/TempleBackground';
-import { TrackSwitcher } from '@/components/TrackSwitcher/TrackSwitcher';
 import { TechStack } from '@/components/TechStack/TechStack';
 import { ProjectGrid } from '@/components/ProjectGrid/ProjectGrid';
+import { NotesSection } from '@/components/NotesSection/NotesSection';
 import { KaizenTimeline } from '@/components/KaizenTimeline/KaizenTimeline';
 import { ContactSection } from '@/components/ContactSection/ContactSection';
 import styles from './page.module.css';
@@ -17,9 +17,9 @@ export default function Home() {
       <Navigation />
 
       <HeroSection />
-      <TrackSwitcher />
       <TechStack />
       <ProjectGrid />
+      <NotesSection />
       <KaizenTimeline />
       <ContactSection />
 
@@ -30,7 +30,7 @@ export default function Home() {
             夜の道 · The night path
           </p>
           <p className={styles.footerCopy}>
-            © {new Date().getFullYear()} Ankit Maurya · Built with Next.js, TypeScript, Three.js &amp; Supabase
+            © {new Date().getFullYear()} Ankit Maurya · Built with Next.js, TypeScript &amp; Supabase
           </p>
           <nav className={styles.footerLinks} aria-label="Social links">
             <a href="https://github.com/BeFearless-cyberhead" target="_blank" rel="noopener noreferrer">

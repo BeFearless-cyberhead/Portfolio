@@ -14,9 +14,8 @@ interface Props {
 }
 
 /**
- * Portal-mounted glass dialog. Focus is trapped while open, ESC closes,
- * and focus returns to the invoking element (handled by the store of the
- * last-focused trigger in the document body via data attribute game below).
+ * Glass dialog with a fixed header and one scrollable reading area.
+ * Focus is trapped while open and restored to the invoking card on close.
  */
 export function ProjectModal({ project: p, onClose }: Props) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -45,7 +44,7 @@ export function ProjectModal({ project: p, onClose }: Props) {
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
 
-        if (e.shiftKey && document.activeElement === first) {
+        if (e.shiftKey && (document.activeElement === first || document.activeElement === panel)) {
           e.preventDefault();
           last.focus();
         } else if (!e.shiftKey && document.activeElement === last) {
@@ -110,66 +109,89 @@ export function ProjectModal({ project: p, onClose }: Props) {
               </button>
             </header>
 
-            <div className={styles.metrics}>
-              {p.metrics.map((m) => (
-                <span key={m.label} className="chip">
-                  <b>{m.value}</b>
-                  <span>{m.label}</span>
-                </span>
-              ))}
-            </div>
-
-            <div className={styles.body}>
-              <div className={styles.reading}>
-                <p className={styles.description}>{p.modal.description}</p>
-
-                {p.modal.architecture && (
-                  <figure className={styles.arch}>
-                    <Image
-                      src={p.modal.architecture}
-                      alt={`Architecture diagram for ${p.title}`}
-                      width={800}
-                      height={450}
-                      className={styles.archImg}
-                    />
-                    <figcaption className={styles.archCaption}>
-                      Architecture flow
-                    </figcaption>
-                  </figure>
-                )}
-
-                {p.modal.codeSnippet && (
-                  <figure className={styles.code}>
-                    <figcaption className={styles.codeCaption}>
-                      {p.modal.codeSnippet.caption}
-                    </figcaption>
-                    <pre tabIndex={0} className={styles.codeBlock}>
-                      <code>{p.modal.codeSnippet.code}</code>
-                    </pre>
-                  </figure>
-                )}
+            <div className={styles.content}>
+              <div className={styles.metrics}>
+                {p.metrics.map((m) => (
+                  <span key={m.label} className="chip">
+                    <b>{m.value}</b>
+                    <span>{m.label}</span>
+                  </span>
+                ))}
               </div>
 
-              <aside className={styles.side}>
-                <p className={styles.sideLabel}>Built with</p>
-                <div className={styles.sideTags}>
-                  {p.tags.map((t) => (
-                    <span key={t} className="tag">
-                      {t}
-                    </span>
-                  ))}
+              <div className={styles.caseStudy} aria-label="Case study summary">
+                <article>
+                  <h4>Problem</h4>
+                  <p>{p.caseStudy.problem}</p>
+                </article>
+                <article>
+                  <h4>Approach</h4>
+                  <p>{p.caseStudy.approach}</p>
+                </article>
+                <article>
+                  <h4>Outcome</h4>
+                  <p>{p.caseStudy.outcome}</p>
+                </article>
+                <article>
+                  <h4>Next step</h4>
+                  <p>{p.caseStudy.nextStep}</p>
+                </article>
+              </div>
+
+              <div className={styles.body}>
+                <div className={styles.reading}>
+                  <p className={styles.description}>{p.modal.description}</p>
+
+                  {p.modal.architecture && (
+                    <figure className={styles.arch}>
+                      <a href={p.modal.architecture} target="_blank" rel="noopener noreferrer" aria-label={`Open full-size architecture diagram for ${p.title}`}>
+                        <Image
+                          src={p.modal.architecture}
+                          alt={`Architecture diagram for ${p.title}`}
+                          width={800}
+                          height={450}
+                          className={styles.archImg}
+                        />
+                      </a>
+                      <figcaption className={styles.archCaption}>
+                        Architecture flow · Open full size ↗
+                      </figcaption>
+                    </figure>
+                  )}
+
+                  {p.modal.codeSnippet && (
+                    <figure className={styles.code}>
+                      <figcaption className={styles.codeCaption}>
+                        {p.modal.codeSnippet.caption}
+                      </figcaption>
+                      <pre tabIndex={0} className={styles.codeBlock}>
+                        <code>{p.modal.codeSnippet.code}</code>
+                      </pre>
+                    </figure>
+                  )}
                 </div>
-                {p.liveUrl && (
-                  <a
-                    href={p.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`btn btn--primary ${styles.liveCta}`}
-                  >
-                    Open live demo
-                  </a>
-                )}
-              </aside>
+
+                <aside className={styles.side}>
+                  <p className={styles.sideLabel}>Built with</p>
+                  <div className={styles.sideTags}>
+                    {p.tags.map((t) => (
+                      <span key={t} className="tag">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  {p.liveUrl && (
+                    <a
+                      href={p.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`btn btn--primary ${styles.liveCta}`}
+                    >
+                      Open live demo
+                    </a>
+                  )}
+                </aside>
+              </div>
             </div>
           </motion.div>
         </motion.div>

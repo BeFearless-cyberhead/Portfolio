@@ -8,6 +8,12 @@
   z-index: -1;
   pointer-events: none;
   --temple-dim: 0;
+  /* Immediate first-paint fallback while the WebGL scene loads. */
+  background:
+    radial-gradient(34% 28% at 78% 17%, rgba(233, 180, 76, 0.24), transparent 70%),
+    radial-gradient(26% 38% at 15% 42%, rgba(87, 179, 167, 0.16), transparent 72%),
+    radial-gradient(22% 24% at 52% 78%, rgba(214, 73, 51, 0.12), transparent 72%),
+    linear-gradient(180deg, #07121a 0%, #05070a 54%, #100c09 100%);
 }
 
 /* The scene fills its parent — required by the ThreeUI component contract.

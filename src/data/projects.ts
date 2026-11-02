@@ -3,9 +3,14 @@ import type { Project } from '@/types/portfolio';
 export const projects: Project[] = [
   {
     id: 'source-lens',
-    track: 'ai',
     title: 'SourceLens',
     hook: 'Domain-specific RAG chatbot that grounds every answer in an internal corpus — ingestion, retrieval, re-ranking, and citations end to end.',
+    caseStudy: {
+      problem: 'Answers over internal documents need to be traceable to the source rather than merely plausible.',
+      approach: 'Ingest four source types, decompose complex questions, retrieve in parallel, re-rank, and check groundedness before synthesis.',
+      outcome: 'Every answer carries citations, with a target retrieval latency below two seconds.',
+      nextStep: 'Publish a reproducible evaluation set for retrieval quality and citation coverage.',
+    },
     metrics: [
       { value: '100%', label: 'answers carry citations' },
       { value: '< 2s', label: 'target retrieval latency' },
@@ -52,9 +57,14 @@ graph.add_node("rerank", retrieve_and_rerank)`,
   },
   {
     id: 'policy-forge',
-    track: 'ai',
     title: 'PolicyForge',
     hook: 'Deterministic, least-privilege AWS IAM policy generation from structured access intent — exact actions, scoped ARNs, zero wildcards.',
+    caseStudy: {
+      problem: 'Hand-written and generative IAM policies can over-grant access or produce inconsistent results.',
+      approach: 'Validate structured access intent, apply service rules, narrow resource ARNs, and render canonical policy JSON.',
+      outcome: 'The renderer produces deterministic output with zero wildcards and fails safely on unknown intent.',
+      nextStep: 'Expand the service ruleset and publish simulator results for representative policy scenarios.',
+    },
     metrics: [
       { value: '0', label: 'wildcards in output' },
       { value: '100%', label: 'deterministic render' },
@@ -94,9 +104,14 @@ policy = forge(intent)
   },
   {
     id: 'spam-detector',
-    track: 'data',
     title: 'SMS Spam Detector',
     hook: 'End-to-end spam classification engine: calibrated NLP model packaged as a real Python library, served four ways and shipped with 176 passing tests.',
+    caseStudy: {
+      problem: 'A spam filter needs reliable probabilities, leakage-safe evaluation, and an explanation for each verdict.',
+      approach: 'Clean and validate the dataset, train a TF-IDF plus balanced logistic-regression pipeline, then calibrate and expose it through library, CLI, API, and UI surfaces.',
+      outcome: 'The held-out set reports 98.8% accuracy, a 0.0099 Brier score, and 176 passing tests with 96% coverage.',
+      nextStep: 'Add a scheduled evaluation report for drift, class balance, and calibration changes over time.',
+    },
     metrics: [
       { value: '98.8%', label: 'held-out accuracy' },
       { value: '176', label: 'tests · 96% coverage' },
@@ -134,10 +149,56 @@ Every prediction can explain itself — coefficient-based top tokens surface in 
     },
   },
   {
+    id: 'sales-dashboard',
+    title: 'Real-Time Sales Analytics Dashboard',
+    hook: 'Interactive analytics platform turning daily sales records into KPI views, anomaly signals, and trend-oriented decisions.',
+    caseStudy: {
+      problem: 'Sales data is useful only when people can move from a headline KPI to the product, region, or time period behind it.',
+      approach: 'Clean and enrich transaction records with Pandas, aggregate decision-ready metrics, and present the results through interactive drill-down views.',
+      outcome: 'The dashboard brings together 12 KPI visualisations and supports fast query responses for recurring sales questions.',
+      nextStep: 'Add a documented forecasting baseline and a feedback loop for validating anomaly alerts with stakeholders.',
+    },
+    metrics: [
+      { value: '50K+', label: 'daily records processed' },
+      { value: '< 2s', label: 'target query response' },
+      { value: '12', label: 'KPI visualisations' },
+    ],
+    tags: ['Python', 'Pandas', 'SQL', 'Supabase', 'React', 'D3.js'],
+    thumbnail: '/assets/projects/sales-dashboard/thumb.webp',
+    modal: {
+      description: `The Real-Time Sales Analytics Dashboard is an analytics product designed to turn recurring sales questions into a visual workflow. Instead of leaving stakeholders with a raw transaction export, it brings revenue trends, product performance, regional breakdowns, and customer segments into one place.
+
+The pipeline starts with records from multiple retail channels. A Pandas cleaning and enrichment stage normalises the inputs, removes duplicates, and calculates the derived measures needed by the dashboard. The data layer then serves the same definitions consistently across the KPI cards and drill-down views.
+
+A rolling z-score check flags unusual changes in daily revenue. The purpose is not to replace human judgement, but to point attention toward periods that deserve investigation — whether the cause is a genuine business event or a data-quality issue.
+
+The dashboard is designed around exploration: users can compare date ranges, filter by region or product, and move from a summary number to the records behind it. This project demonstrates the bridge between data preparation, analytical reasoning, and a usable interface.`,
+      architecture: '/assets/projects/sales-dashboard/arch.svg',
+      codeSnippet: {
+        lang: 'python',
+        code: `def detect_anomalies(df: pd.DataFrame, column: str, window: int = 30):
+    rolling_mean = df[column].rolling(window).mean()
+    rolling_std = df[column].rolling(window).std()
+    z_scores = (df[column] - rolling_mean) / rolling_std
+    df['is_anomaly'] = np.abs(z_scores) > 2.5
+    return df.assign(z_score=z_scores)
+
+daily_revenue = sales_df.groupby('date')['revenue'].sum().reset_index()
+flagged = detect_anomalies(daily_revenue, 'revenue')`,
+        caption: 'A rolling z-score baseline highlights unusual revenue movements for review.',
+      },
+    },
+  },
+  {
     id: 'skillify',
-    track: 'data',
     title: 'Skillify',
     hook: 'Full-stack community platform where members share skills, request learning sessions, borrow resources, and earn Skill Coins — on Firebase Auth + a Flask REST API.',
+    caseStudy: {
+      problem: 'A learning community needs one coherent loop for sharing skills, requesting help, borrowing resources, and tracking contribution.',
+      approach: 'Split the product into focused modules and route authentication, ownership, and the shared coin ledger through trusted backend services.',
+      outcome: 'Seven modules run across two deployed platforms while one ledger keeps coin movements consistent.',
+      nextStep: 'Instrument usage events to understand which learning loops create the most returning participation.',
+    },
     metrics: [
       { value: '7', label: 'integrated modules' },
       { value: '2', label: 'deployed platforms' },

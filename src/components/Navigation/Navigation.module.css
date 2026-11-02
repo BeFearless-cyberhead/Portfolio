@@ -4,6 +4,7 @@
   left: 0;
   right: 0;
   z-index: var(--z-nav);
+  padding-top: env(safe-area-inset-top, 0px);
   transition: background var(--dur-default) var(--ease),
     border-color var(--dur-default) var(--ease),
     backdrop-filter var(--dur-default) var(--ease);
@@ -24,8 +25,9 @@
   justify-content: space-between;
   gap: var(--space-6);
   max-width: var(--max-content);
+  min-height: var(--nav-height);
   margin: 0 auto;
-  padding: 14px var(--space-6);
+  padding: 14px var(--page-gutter);
 }
 
 .brand {
@@ -33,6 +35,7 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 /* Torii-adjacent mark: the character 安 ("peace") hangs like a temple plaque */
@@ -41,6 +44,7 @@
   place-items: center;
   width: 38px;
   height: 38px;
+  flex-shrink: 0;
   border: 1px solid var(--hairline-strong);
   border-radius: 10px;
   background: var(--panel-soft);
@@ -66,6 +70,9 @@
 
 .link {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   padding: 6px 2px;
   font-size: 0.9375rem;
   color: var(--color-ink-muted);
@@ -90,6 +97,10 @@
 }
 
 .cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  white-space: nowrap;
   padding: 9px 20px;
   border: 1px solid var(--hairline-gold);
   border-radius: var(--radius-full);
@@ -112,6 +123,7 @@
   z-index: var(--z-drawer);
   width: 44px;
   height: 44px;
+  flex-shrink: 0;
   padding: 10px;
   border: 1px solid var(--hairline);
   border-radius: 12px;
@@ -136,39 +148,89 @@
   transform: translateY(-4px) rotate(-45deg);
 }
 
-/* Drawer — full-height slide-in */
+/* The drawer owns its close control so it stays above the header. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-drawer) - 1);
+  border: 0;
+  background: rgba(3, 5, 8, 0.65);
+}
+
+.backdrop[hidden],
+.drawer[hidden] {
+  display: none;
+}
+
 .drawer {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: calc(var(--z-drawer) - 1);
+  z-index: var(--z-drawer);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: var(--space-12);
-  width: min(78vw, 360px);
-  padding: var(--space-12) var(--space-8);
+  gap: var(--space-8);
+  width: min(88vw, 360px);
+  padding: max(16px, env(safe-area-inset-top, 0px)) var(--space-6) max(16px, env(safe-area-inset-bottom, 0px));
   background: var(--panel-strong);
   border-left: 1px solid var(--hairline);
   backdrop-filter: blur(20px) saturate(130%);
   -webkit-backdrop-filter: blur(20px) saturate(130%);
   transform: translateX(100%);
   transition: transform var(--dur-slow) var(--ease-spring);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .drawerOpen {
   transform: translateX(0);
 }
 
+.drawerHeader {
+  position: sticky;
+  top: -1px;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--hairline);
+  background: var(--panel-strong);
+}
+
+.drawerLabel {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.drawerClose {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--hairline-gold);
+  border-radius: 12px;
+  font-size: 1.5rem;
+  background: var(--panel-soft);
+}
+
 .drawerLinks {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-2);
   list-style: none;
   padding: 0;
 }
 
 .drawerLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-family: var(--font-heading), sans-serif;
   font-size: var(--text-h2);
   font-weight: 700;
@@ -186,8 +248,13 @@
   font-size: var(--text-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  flex-wrap: wrap;
+  margin-top: auto;
 }
 .drawerSocial a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--color-ink-muted);
   text-decoration: none;
 }
@@ -195,7 +262,7 @@
   color: var(--color-gold);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 960px) {
   .links {
     display: none;
   }

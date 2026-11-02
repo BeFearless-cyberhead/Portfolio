@@ -9,6 +9,7 @@
 
 .card {
   display: grid;
+  min-width: 0;
   justify-items: center;
   gap: var(--space-3);
   padding: var(--space-6) var(--space-4);
@@ -49,6 +50,9 @@
 }
 
 .name {
+  max-width: 100%;
+  text-align: center;
+  overflow-wrap: anywhere;
   font-family: var(--font-mono), monospace;
   font-size: 0.8125rem;
   letter-spacing: 0.04em;
@@ -57,7 +61,11 @@
 
 @media (max-width: 640px) {
   .grid {
-    grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 118px), 1fr));
     gap: var(--space-3);
+  }
+
+  .card {
+    padding: var(--space-4) var(--space-3);
   }
 }

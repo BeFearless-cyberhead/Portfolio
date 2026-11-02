@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import type { Project } from '@/types/portfolio';
 import styles from './ProjectGrid.module.css';
 
@@ -11,16 +10,9 @@ interface Props {
   onOpen: () => void;
 }
 
-const EASE = [0.34, 1.56, 0.64, 1] as const;
-
 export function ProjectCard({ project: p, index, onOpen }: Props) {
   return (
-    <motion.article
-      className={styles.card}
-      initial={{ opacity: 0, y: 24, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay: index * 60, duration: 0.4, ease: EASE }}
-    >
+    <article className={styles.card}>
       <button
         type="button"
         className={styles.cardButton}
@@ -35,7 +27,7 @@ export function ProjectCard({ project: p, index, onOpen }: Props) {
             src={p.thumbnail}
             alt={`${p.title} thumbnail`}
             fill
-            sizes="(max-width: 900px) 100vw, 50vw"
+            sizes="(max-width: 760px) calc(100vw - 56px), (max-width: 894px) 340px, (max-width: 1158px) 38vw, 440px"
             className={styles.thumb}
           />
           <span className={styles.thumbVeil} aria-hidden="true" />
@@ -45,9 +37,6 @@ export function ProjectCard({ project: p, index, onOpen }: Props) {
         </span>
 
         <span className={styles.cardBody}>
-          <span className={styles.cardEyebrow} aria-hidden="true">
-            {String(index + 1).padStart(2, '0')} &middot; Architecture story
-          </span>
           <h3 className={styles.cardTitle}>{p.title}</h3>
           <p className={styles.cardHook}>{p.hook}</p>
 
@@ -62,21 +51,26 @@ export function ProjectCard({ project: p, index, onOpen }: Props) {
           </span>
 
           <span className={styles.cardTags}>
-            {p.tags.map((t) => (
+            {p.tags.slice(0, 3).map((t) => (
               <span key={t} className="tag">
                 {t}
               </span>
             ))}
+            {p.tags.length > 3 && (
+              <span className="tag" aria-label={`${p.tags.length - 3} more tools in the case study`}>
+                +{p.tags.length - 3}
+              </span>
+            )}
           </span>
 
           <span className={styles.cardCta}>
-            <span>View architecture</span>
+            <span>Open case study</span>
             <span className={styles.ctaArrow} aria-hidden="true">
               →
             </span>
           </span>
         </span>
       </button>
-    </motion.article>
+    </article>
   );
 }

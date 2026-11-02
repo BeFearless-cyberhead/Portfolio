@@ -13,7 +13,6 @@ export interface CodeBlock {
 
 export interface Project {
   id:         string;           // kebab-case, e.g. "source-lens"
-  track:      'data' | 'ai';   // which TrackSwitcher panel
   title:      string;
   hook:       string;           // 1-sentence value prop — card face
   metrics:    Metric[];         // 2–3 stat chips on card and modal
@@ -21,6 +20,12 @@ export interface Project {
   thumbnail:  string;           // /assets/projects/{id}/thumb.webp
   repoUrl?:   string;           // GitHub URL
   liveUrl?:   string;           // Deployed app URL (if any)
+  caseStudy: {
+    problem: string;
+    approach: string;
+    outcome: string;
+    nextStep: string;
+  };
   modal: {
     description:   string;      // Rich text — min 150 words
     architecture:  string;      // Path to SVG: /assets/projects/{id}/arch.svg
@@ -37,18 +42,11 @@ export interface KaizenNode {
   outcome:     string;         // measurable result
 }
 
-export interface TechItem {
-  name:   string;
-  icon:   string;              // emoji or icon path
-  track:  'data' | 'ai' | 'shared';
-}
-
 export interface PortfolioStat {
   key:    string;
   value:  string;
   label:  string;
 }
 
-export type Track = 'data' | 'ai';
 export type Theme = 'light' | 'dark';
 export type FormState = 'idle' | 'loading' | 'success' | 'error';

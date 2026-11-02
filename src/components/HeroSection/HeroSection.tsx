@@ -1,8 +1,5 @@
-'use client';
-
 import styles from './HeroSection.module.css';
 import { StatChips } from './StatChips';
-import { TypewriterEffect } from './TypewriterEffect';
 
 export function HeroSection() {
   return (
@@ -10,32 +7,32 @@ export function HeroSection() {
       <div className={styles.inner}>
         <p className={styles.eyebrow}>Portfolio · 秋</p>
         <h1 className={styles.name}>Ankit Maurya</h1>
-        <TypewriterEffect />
+        <p className={styles.typewriter}>Data Science &amp; AI Engineer</p>
 
         <p className={styles.lede}>
-          I build AI systems that hold up in production — LangGraph pipelines,
-          data engineering, and dashboards people actually use.
+          I explore data, build useful machine-learning systems, and turn technical
+          experiments into products people can understand and use.
         </p>
 
-        <StatChips />
-
         <div className={styles.ctas}>
-          <a href="#track" className="btn btn--primary">
-            Explore Architectures
+          <a href="#arsenal" className="btn btn--primary">
+            Follow the path
           </a>
           <a
-            href="/resume.pdf"
+            href="https://linkedin.com/in/ankit-maurya-2123ab307"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn--ghost"
           >
-            Download Resume
+            View LinkedIn
           </a>
         </div>
+
+        <StatChips />
       </div>
 
       {/* Scroll cue — lantern anchor light */}
-      <a href="#track" className={styles.scrollCue} aria-label="Scroll to explore">
+      <a href="#arsenal" className={styles.scrollCue} aria-label="Scroll to explore">
         <span className={styles.scrollCueLine} aria-hidden="true" />
         Scroll
       </a>

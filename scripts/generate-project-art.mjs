@@ -37,7 +37,7 @@ const svgOpen = (w, h, body, defs = '') =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${defs}${body}</svg>`;
 
 // Deterministic star field (so re-runs are stable)
-function stars(cx = 640, yMax = 460, count = 70, seed = 7) {
+function stars(yMax = 460, count = 70, seed = 7) {
   let s = seed;
   const rnd = () => ((s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
   let out = '';

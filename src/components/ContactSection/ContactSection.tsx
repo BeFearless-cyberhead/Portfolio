@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import type { FormState } from '@/types/portfolio';
+import { PortfolioChat } from '@/components/PortfolioChat/PortfolioChat';
 import styles from './ContactSection.module.css';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,7 +24,7 @@ function Toast({ state }: { state: FormState }) {
       className={`${styles.toast} ${isError ? styles.toastError : styles.toastSuccess}`}
     >
       {isError
-        ? 'Something went wrong. Please try again, or email me directly at ankitmaurya@example.com.'
+        ? 'The form is unavailable right now. Please reach me through LinkedIn or GitHub below.'
         : 'Message received — I will reply soon.'}
     </p>
   );
@@ -86,82 +87,98 @@ export function ContactSection() {
   return (
     <section id="contact" className="section" aria-label="Contact">
       <div className="section__inner">
-        <p className="section__eyebrow">04 · Contact</p>
+        <p className="section__eyebrow">05 · Contact</p>
         <h2 className="section__title">Leave a light on</h2>
         <p className="section__intro">
           Whether it&rsquo;s a role, a project, or a hard problem — the door is open.
         </p>
 
-        <form className={styles.form} onSubmit={handleSubmit} noValidate>
-          <div className={styles.row}>
+        <div className={styles.layout}>
+          <form className={styles.form} onSubmit={handleSubmit} aria-label="Send a message" noValidate>
+            <header className={styles.panelIntro}>
+              <p className={styles.panelLabel}>A human connection</p>
+              <h3>Send a note</h3>
+              <p>For opportunities, collaborations, or a good conversation.</p>
+            </header>
+            <div className={styles.row}>
+              <div className={styles.field}>
+                <label htmlFor="contact-name">Name</label>
+                <input
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  maxLength={60}
+                  aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                  placeholder="Your full name"
+                />
+                {errors.name && (
+                  <p id="contact-name-error" className={styles.fieldError}>
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+
+              <div className={styles.field}>
+                <label htmlFor="contact-email">Email</label>
+                <input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  maxLength={254}
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                  placeholder="you@company.com"
+                />
+                {errors.email && (
+                  <p id="contact-email-error" className={styles.fieldError}>
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+            </div>
+
             <div className={styles.field}>
-              <label htmlFor="contact-name">Name</label>
-              <input
-                id="contact-name"
-                name="name"
-                type="text"
-                autoComplete="name"
+              <label htmlFor="contact-message">Message</label>
+              <textarea
+                id="contact-message"
+                name="message"
                 required
-                maxLength={60}
-                aria-invalid={!!errors.name}
-                aria-describedby={errors.name ? 'contact-name-error' : undefined}
-                placeholder="Your full name"
+                minLength={10}
+                maxLength={2000}
+                rows={4}
+                aria-invalid={!!errors.message}
+                aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                placeholder="What are you building?"
               />
-              {errors.name && (
-                <p id="contact-name-error" className={styles.fieldError}>
-                  {errors.name}
+              {errors.message && (
+                <p id="contact-message-error" className={styles.fieldError}>
+                  {errors.message}
                 </p>
               )}
             </div>
 
-            <div className={styles.field}>
-              <label htmlFor="contact-email">Email</label>
-              <input
-                id="contact-email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                maxLength={254}
-                aria-invalid={!!errors.email}
-                aria-describedby={errors.email ? 'contact-email-error' : undefined}
-                placeholder="you@company.com"
-              />
-              {errors.email && (
-                <p id="contact-email-error" className={styles.fieldError}>
-                  {errors.email}
-                </p>
-              )}
+            <div className={styles.actions}>
+              <button type="submit" className="btn btn--primary" disabled={busy} aria-busy={busy}>
+                {busy ? 'Sending…' : 'Send message'}
+              </button>
+              <Toast state={formState} />
             </div>
-          </div>
-
-          <div className={styles.field}>
-            <label htmlFor="contact-message">Message</label>
-            <textarea
-              id="contact-message"
-              name="message"
-              required
-              minLength={10}
-              maxLength={2000}
-              rows={6}
-              aria-invalid={!!errors.message}
-              aria-describedby={errors.message ? 'contact-message-error' : undefined}
-              placeholder="What are you building?"
-            />
-            {errors.message && (
-              <p id="contact-message-error" className={styles.fieldError}>
-                {errors.message}
-              </p>
-            )}
-          </div>
-
-          <div className={styles.actions}>
-            <button type="submit" className="btn btn--primary" disabled={busy} aria-busy={busy}>
-              {busy ? 'Sending…' : 'Send message'}
-            </button>
-            <Toast state={formState} />
-          </div>
-        </form>
+            <div className={styles.directLinks} aria-label="Direct contact links">
+              <a href="https://linkedin.com/in/ankit-maurya-2123ab307" target="_blank" rel="noopener noreferrer">
+                LinkedIn ↗
+              </a>
+              <a href="https://github.com/BeFearless-cyberhead" target="_blank" rel="noopener noreferrer">
+                GitHub ↗
+              </a>
+            </div>
+          </form>
+          <PortfolioChat />
+        </div>
       </div>
     </section>
   );
